@@ -7,15 +7,15 @@
 """
 
 class HashMap:
-    """	
+    """
 	* #Crafty.HashMap.constructor
 	* @comp Crafty.HashMap
 	* @sign public void Crafty.HashMap([cellsize])
 	* @param cellsize - the cell size. If omitted, `cellsize` is 64.
-	* 
+	*
     * Set `cellsize`.
     * And create `this.map`.
-    """	
+    """
 
     HASH_FORM "{0} {1}"
     cellsize = None
@@ -23,21 +23,21 @@ class HashMap:
     def __init__(self, cell=64):
         cellsize = cell
         self.map = {};
-        
-    """	
+
+    """
 	* #Crafty.map.insert
 	* @comp Crafty.map
     * @sign public Object Crafty.map.insert(Object obj)
 	* @param obj - An entity to be inserted.
-	* 
+	*
     * `obj` is inserted in '.map' of the corresponding broad phase cells. An object of the following fields is returned.
     * ~~~
     * - the object that keep track of cells (keys)
     * - `obj`
     * - the HashMap object
     * ~~~
-    """	
-    
+    """
+
     def insert(self, obj):
         keys = HashMap.key(obj)
         entry = Entry(keys, obj, self)
@@ -48,9 +48,9 @@ class HashMap:
         #insert into all x buckets
         for i in range(keys.x1, keys.x2+1):
             #insert into all y buckets
-            for j in range(keys.y1, keys.y2+1): 
+            for j in range(keys.y1, keys.y2+1):
                 hash = HASH_FORM.format(i, j)
-                if not self.map.has_key(hash): 
+                if not self.map.has_key(hash):
                     self.map[hash] = [];
                 self.map[hash].append(obj);
 
@@ -62,11 +62,11 @@ class HashMap:
     * @sign public Object Crafty.map.search(Object rect[, Boolean filter])
 	* @param rect - the rectangular region to search for entities.
 	* @param filter - Default value is true. Otherwise, must be false.
-	* 
+	*
     * - If `filter` is `false`, just search for all the entries in the give `rect` region by broad phase collision. Entity may be returned duplicated.
     * - If `filter` is `true`, filter the above results by checking that they actually overlap `rect`.
     * The easier usage is with `filter`=`true`. For performance reason, you may use `filter`=`false`, and filter the result yourself. See examples in drawing.js and collision.js
-    """	
+    """
 
     def search(self, rect, filter=True):
         keys = HashMap.key(rect)
@@ -78,7 +78,7 @@ class HashMap:
         for i in range(keys.x1, keys.x2+1):
             #insert into all y buckets
             for j in range(keys.y1, keys.y2+1):
-                hash = HASH_FORM.format(i, j) 
+                hash = HASH_FORM.format(i, j)
 
                 if self.map.has_key(hash):
                     results += self.map[hash]
@@ -93,7 +93,7 @@ class HashMap:
             #add unique elements to lookup table with the entity ID as unique key
             l = len(results)
             for obj in results:
-                if (obj == None): 
+                if (obj == None):
                     continue #skip if deleted
                 id = obj[0]; #unique ID
 
@@ -106,7 +106,7 @@ class HashMap:
                     found[id] = results[i];
 
             #loop over lookup table and copy to final array
-            for obj in found: 
+            for obj in found:
                 finalresult.append(obj)
 
             return finalresult
@@ -119,11 +119,11 @@ class HashMap:
 	* @sign public void Crafty.map.remove([Object keys, ]Object obj)
 	* @param keys - key region. If omitted, it will be derived from obj by `Crafty.HashMap.key`.
 	* @param obj - need more document.
-	* 
+	*
 	* Remove an entity in a broad phase map.
 	* - The second form is only used in Crafty.HashMap to save time for computing keys again, where keys were computed previously from obj. End users should not call this form directly.
 	*
-	* @example 
+	* @example
 	* ~~~
 	* Crafty.map.remove(e);
 	* ~~~
@@ -159,7 +159,7 @@ class HashMap:
 	* #Crafty.map.boundaries
 	* @comp Crafty.map
 	* @sign public Object Crafty.map.boundaries()
-	* 
+	*
     * The return `Object` is of the following format.
     * ~~~
 	* {
@@ -239,7 +239,7 @@ class HashMap:
 /**@
 * #Crafty.HashMap
 * @category 2D
-* Broad-phase collision detection engine. See background information at 
+* Broad-phase collision detection engine. See background information at
 *
 * ~~~
 * - [N Tutorial B - Broad-Phase Collision](http://www.metanetsoftware.com/technique/tutorialB.html)
@@ -255,7 +255,7 @@ class HashMap:
 	* @param obj - an Object that has .mbr() or _x, _y, _w and _h.
     * Get the rectangular region (in terms of the grid, with grid size `cellsize`), where the object may fall in. This region is determined by the object's bounding box.
     * The `cellsize` is 64 by default.
-    * 
+    *
     * @see Crafty.HashMap.constructor
 	*/
 	HashMap.key = function (obj) {
@@ -291,6 +291,6 @@ class HashMap:
 	};
 
 	parent.HashMap = HashMap;
-})(Crafty);       
+})(Crafty);
 
 
