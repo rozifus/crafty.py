@@ -1,5 +1,8 @@
 *.py[cod]
 
+#gvim
+*.swp
+
 # C extensions
 *.so
 
